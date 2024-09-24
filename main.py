@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import pickle
 import pandas as pd
-
+from fastapi.middleware.cors import CORSMiddleware
 # Load the trained model
 model = pickle.load(open("physical_properties.pkl", "rb"))
 
@@ -13,6 +13,13 @@ model = pickle.load(open("physical_properties.pkl", "rb"))
 # Initialize the FastAPI app
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define the input data model
 class InputData(BaseModel):
